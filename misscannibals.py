@@ -43,7 +43,7 @@ class MissCannibals(Problem):
             actions.remove('MC')
         if (state[1] - 2 < startingNumMiss - state[0] and state[0] != 0) or state[1] <= 1:
             actions.remove('CC')
-        if (state[0] == state[1] and state[1] != startingNumCann) or state[1] < 1:
+        if (state[1] - 1 < state[0] and state[0] != 0 and startingNumMiss != state[0]) or state[1] < 1:
             actions.remove('C')
 
         state = tempState
@@ -51,17 +51,17 @@ class MissCannibals(Problem):
         return actions
 
 if __name__ == '__main__':
-    mc = MissCannibals(M=3, C=2)
+    mc = MissCannibals(M=3, C=3)
     # print(mc.actions((3, 2, True))) # Test your code as you develop! This should return  ['CC', 'C', 'M']
 
     #Test left side of bank
-    # print(mc.actions((3, 3, True))) # MC, CC, C
-    # print(mc.actions((3, 2, True))) # M, CC, C
-    # print(mc.actions((3, 1, True))) # MM, C
-    # print(mc.actions((2, 2, True))) # MM, MC
-    # print(mc.actions((0, 3, True))) # CC, C
-    # print(mc.actions((0, 2, True))) # CC, C
-    # print(mc.actions((1, 1, True))) # M, MC
+    print(mc.actions((3, 3, True))) # MC, CC, C
+    print(mc.actions((3, 2, True))) # M, CC, C
+    print(mc.actions((3, 1, True))) # MM, C
+    print(mc.actions((2, 2, True))) # MM, MC
+    print(mc.actions((0, 3, True))) # CC, C
+    print(mc.actions((0, 2, True))) # CC, C
+    print(mc.actions((1, 1, True))) # M, MC
 
     # Test right side of bank
     # print(mc.actions((2, 2, False))) # M, MC
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
 
 
-    path = depth_first_graph_search(mc).solution()
-    print(path)
-    path = breadth_first_graph_search(mc).solution()
-    print(path)
+    # path = depth_first_graph_search(mc).solution()
+    # print(path)
+    # path = breadth_first_graph_search(mc).solution()
+    # print(path)
