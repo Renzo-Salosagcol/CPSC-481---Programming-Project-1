@@ -28,8 +28,8 @@ class MissCannibals(Problem):
 
     def actions(self, state):
         actions = ['M', 'MM', 'MC', 'CC', 'C']
-        startingNumMiss = MissCannibals().initial[0]
-        startingNumCann = MissCannibals().initial[1]
+        startingNumMiss = self.initial[0]
+        startingNumCann = self.initial[1]
         tempState = state
         if state[2] == False: #Reverse if on Right bank
             state = (startingNumMiss - state[0], startingNumCann - state[1], False)
@@ -51,7 +51,7 @@ class MissCannibals(Problem):
         return actions
 
 if __name__ == '__main__':
-    mc = MissCannibals(M=3, C=3)
+    mc = MissCannibals(M=3, C=2)
     # print(mc.actions((3, 2, True))) # Test your code as you develop! This should return  ['CC', 'C', 'M']
 
     #Test left side of bank
@@ -71,6 +71,7 @@ if __name__ == '__main__':
     # print(mc.actions((1, 1, False))) # MM, MC
     # print(mc.actions((0, 2, False))) # MM, C
     # print(mc.actions((0, 1, False))) # M, CC, C
+
 
 
     path = depth_first_graph_search(mc).solution()
