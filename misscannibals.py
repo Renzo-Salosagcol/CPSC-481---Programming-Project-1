@@ -79,8 +79,7 @@ class MissCannibals(Problem):
             #             removeValues.append(i)
 
             for action in actions:
-                new_state = self.result(state, action)
-                if not self.is_valid(new_state):
+                if not self.validateActions(state, action, True):
                     removeValues.append(action)
 
         elif not state[2]:
@@ -99,8 +98,7 @@ class MissCannibals(Problem):
             rightCann = self.initial[1] - state[1]
 
             for action in actions:
-                new_state = self.result(state, action)
-                if not self.is_valid(new_state):
+                if not self.validateActions(state, action, False):
                     removeValues.append(action)
 
             # for i in actions:
@@ -119,18 +117,52 @@ class MissCannibals(Problem):
 
         return actions
 
-    def is_valid(self, state):
-        numMiss, numCann = state[0], state[1]
-        if numMiss < 0 or numCann < 0 or numMiss > self.M or numCann > self.C:
+    def validateActions(self, currState, action, boatPosition):
+        # Pretend Actions
+        if boatPosition:
+            #Left side information
+            numMiss = currState[0] - (1 * action.count('M'))
+            numCann = currState[1] - (1 * action.count('C'))
+
+            # print("Left State:" + str(numMiss) + ", " + str(numCann))
+
+            newNumMiss = self.initial[0] - numMiss
+            newNumCann = self.initial[1] - numCann
+
+            # print("Right State:" + str(newNumMiss) + ", " + str(newNumCann))
+
+            if numMiss < numCann and numMiss != 0 and numMiss != self.initial:
+                return False
+            if newNumMiss < newNumCann and newNumMiss != 0:
+                return False
+        elif not boatPosition:
+            numMiss = currState[0] + (1 * action.count('M'))
+            numCann = currState[1] + (1 * action.count('C'))
+
+            # print("Left State:" + str(numMiss) + ", " + str(numCann))
+
+            newNumMiss = self.initial[0] - numMiss
+            newNumCann = self.initial[1] - numCann
+
+            # print("Right State:" + str(newNumMiss) + ", " + str(newNumCann))
+
+            # print("action: " + str(action))
+
+            if numMiss < numCann and numMiss != 0 and numMiss != self.initial:
+                return False
+            if newNumMiss < newNumCann and newNumMiss != 0:
+                return False
+
+        # Out of bounds states
+        if numMiss < 0 or numCann < 0 or newNumMiss < 0 or newNumCann < 0:
             return False
-        if numMiss > 0 and numMiss < numCann:
+        elif numMiss > self.initial[0] or numCann > self.initial[1] or newNumMiss > self.initial[0] or newNumCann > self.initial[1]:
             return False
-        if self.M - numCann > 0 and self.M - numMiss < self.C - numCann:
-            return False
+
         return True
 
 if __name__ == '__main__':
-    mc = MissCannibals(M=3, C=0)
+    mc = MissCannibals(M=3, C=1)
     # print(mc.actions((3, 2, True))) # Test your code as you develop! This should return  ['CC', 'C', 'M']
 
     #Test left side of bank
