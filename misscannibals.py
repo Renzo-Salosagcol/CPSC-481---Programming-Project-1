@@ -120,12 +120,12 @@ class MissCannibals(Problem):
         return actions
 
     def is_valid(self, state):
-        m, c, _ = state
-        if m < 0 or c < 0 or m > self.M or c > self.C:
+        numMiss, numCann = state[0], state[1]
+        if numMiss < 0 or numCann < 0 or numMiss > self.M or numCann > self.C:
             return False
-        if m > 0 and m < c:
+        if numMiss > 0 and numMiss < numCann:
             return False
-        if self.M - m > 0 and self.M - m < self.C - c:
+        if self.M - numCann > 0 and self.M - numMiss < self.C - numCann:
             return False
         return True
 
